@@ -1,0 +1,169 @@
+/* 基本的なページ設定 */
+body {
+    font-family: 'Segoe UI', Meiryo, 'Hiragino Kaku Gothic ProN', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+h1, h2, h3, h4 {
+    color: #1d2129;
+}
+
+h1 {
+    text-align: center;
+    color: #0056b3;
+}
+
+hr {
+    display: none;
+}
+
+/* 全ボタン共通の基本スタイル */
+button {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #e4e6eb;
+    color: #050505;
+    transition: background-color 0.2s;
+    margin: 4px;
+}
+button:hover {
+    background-color: #d8dadf;
+}
+
+/* メインの操作ボタン（保存など） */
+#save-deck-button {
+    background-color: #007bff;
+    color: white;
+}
+#save-deck-button:hover {
+    background-color: #0056b3;
+}
+
+/* 各セクションのスタイル */
+section {
+    background-color: #fff;
+    border: 1px solid #dddfe2;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* デッキカスタマイズエリア */
+.beyblade-slot {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 10px;
+}
+.parts-display {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-around;
+}
+.part-button {
+    flex: 1;
+    border: 2px dashed #ccd0d5;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: bold;
+}
+.part-button:hover {
+    background-color: #f5f6f7;
+    border-color: #007bff;
+}
+
+/* パーツ選択エリア */
+#parts-selector-area h4 {
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+/* フィルター部分（チェックボックス） */
+#parts-selector-area div:first-child label {
+    display: inline-block;
+    background: #f5f6f7;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 4px;
+    font-size: 13px;
+    cursor: pointer;
+}
+#parts-selector-area div:first-child label:hover {
+    background: #e9ebee;
+}
+#parts-selector-area input[type="checkbox"] {
+    margin-right: 5px;
+}
+/* パーツ一覧（結果）部分 */
+#parts-results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* 保存済みデッキ一覧エリア */
+.saved-deck {
+    background-color: #f9f9f9;
+    border: 1px solid #e9e9e9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    position: relative; /* 削除ボタンの位置基準 */
+}
+.saved-deck h3 {
+    margin-top: 0;
+}
+.saved-deck p {
+    margin: 5px 0;
+    color: #555;
+}
+.saved-deck button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    color: white;
+}
+.saved-deck button:hover {
+    background-color: #c82333;
+}
+
+/* デッキビルダーのコンテナをフレックスボックスにする */
+#deck-builder-area {
+    display: flex;
+    flex-wrap: wrap; /* 画面が狭いときは折り返す */
+    gap: 15px; /* 各要素の隙間 */
+    align-items: flex-end; /* 要素の下端を揃える */
+}
+
+/* デッキ名入力欄の幅を調整 */
+#deck-builder-area > div:first-child {
+    flex-basis: 100%; /* 最初の行で全幅を使う */
+}
+
+/* ベイブレードスロットを横に並べる */
+.beyblade-slot {
+    flex: 1; /* 空きスペースを均等に分け合う */
+    min-width: 200px; /* 最小幅を指定 */
+}
+
+/* 保存ボタンを右端に寄せる */
+#save-deck-button {
+    margin-left: auto; /* 左側のマージンを自動で最大にする */
+}

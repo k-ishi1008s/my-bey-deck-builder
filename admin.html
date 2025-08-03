@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>パーツデータベース管理</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="admin.js" defer></script>
+</head>
+<body>
+    <h1>パーツデータベース管理</h1>
+    <p><a href="index.html">デッキビルダーに戻る</a></p>
+
+    <section>
+        <h2>新しいパーツを追加</h2>
+        <form id="add-parts-form">
+            <label for="part-type">パーツ種別:</label>
+            <select id="part-type">
+                <option value="blades">ブレード</option>
+                <option value="ratchets">ラチェット</option>
+                <option value="bits">ビット</option>
+            </select>
+            <br>
+            <label for="part-name">パーツ名:</label>
+            <input type="text" id="part-name" required>
+            <br>
+            <div id="additional-fields">
+                </div>
+            <br>
+            <button type="submit">このパーツを追加</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>データベースの更新</h2>
+        <p>パーツを追加したら、最後にこのボタンを押して新しいJSONを生成し、parts_database.jsonに貼り付けてください。</p>
+        <button id="generate-json-button">更新後のJSONを生成</button>
+        <textarea id="output-json" readonly></textarea>
+    </section>
+
+</body>
+</html>
