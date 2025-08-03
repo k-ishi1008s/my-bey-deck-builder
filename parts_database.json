@@ -1,179 +1,689 @@
 {
   "blades": [
-    { "name": "ドランソード", "category": "BX" },
-    { "name": "ヘルズサイズ", "category": "BX" },
-    { "name": "ウィザードアロー", "category": "BX" },
-    { "name": "ナイトシールド", "category": "BX" },
-    { "name": "コバルトドレイク", "category": "BX" },
-    { "name": "ナイトランス", "category": "BX" },
-    { "name": "シャークエッジ", "category": "BX" },
-    { "name": "レオンクロー", "category": "BX" },
-    { "name": "ヴァイパーテイル", "category": "BX" },
-    { "name": "ライノホーン", "category": "BX" },
-    { "name": "ドランダガー", "category": "BX" },
-    { "name": "ヘルズチェイン", "category": "BX" },
-    { "name": "フェニックスフェザー", "category": "BX" },
-    { "name": "フェニックスウイング", "category": "BX" },
-    { "name": "ワイバーンゲイル", "category": "BX" },
-    { "name": "ユニコーンスティング", "category": "BX" },
-    { "name": "スフィンクスカウル", "category": "BX" },
-    { "name": "ティラノビート", "category": "BX" },
-    { "name": "ヴァイスタイガー", "category": "BX" },
-    { "name": "コバルトドラグーン", "category": "BX" },
-    { "name": "ブラックシェル", "category": "BX" },
-    { "name": "ホエールウェーブ", "category": "BX" },
-    { "name": "ベアスクラッチ", "category": "BX" },
-    { "name": "クリムゾンガルーダ", "category": "BX" },
-    { "name": "プテラスイング", "category": "BX" },
-    { "name": "シノビナイフ", "category": "BX" },
-    { "name": "マンモスタスク", "category": "BX" },
-    { "name": "クロコクランチ", "category": "BX" },
-    { "name": "シェルタードレイク", "category": "BX" },
-    { "name": "トリケラプレス", "category": "BX" },
-    { "name": "サムライスチール", "category": "BX" },
-    { "name": "トリケラスパイキー", "category": "BX" },
-    { "name": "ティラノロア", "category": "BX" },
-    { "name": "ドランバスター", "category": "UX" },
-    { "name": "ヘルズハンマー", "category": "UX" },
-    { "name": "ウィザードロッド", "category": "UX" },
-    { "name": "シノビシャドウ", "category": "UX" },
-    { "name": "エアロペガサス", "category": "UX" },
-    { "name": "レオンクレスト", "category": "UX" },
-    { "name": "フェニックスラダー", "category": "UX" },
-    { "name": "シルバーウルフ", "category": "UX" },
-    { "name": "サムライセイバー", "category": "UX" },
-    { "name": "ナイトメイル", "category": "UX" },
-    { "name": "インパクトドレイク", "category": "UX" },
-    { "name": "ゴーストサークル", "category": "UX" },
-    { "name": "ゴーレムロック", "category": "UX" },
-    { "name": "スコーピオスピア", "category": "UX" },
-    { "name": "ドランザースパイラル", "category": "SP" },
-    { "name": "ドライガースラッシュ", "category": "SP" },
-    { "name": "ドラシエルシールド", "category": "SP" },
-    { "name": "ドラグーンストーム", "category": "SP" },
-    { "name": "ライトニングエルドラゴ (アタック)", "category": "SP" },
-    { "name": "ライトニングエルドラゴ (連打)", "category": "SP" },
-    { "name": "ストームペガシス", "category": "SP" },
-    { "name": "ロックレオーネ", "category": "SP" },
-    { "name": "ビクトリーヴァルキリー", "category": "SP" },
-    { "name": "ゼノエクスカリバー", "category": "SP" },
-    { "name": "アイアンマン", "category": "SP" },
-    { "name": "サノス", "category": "SP" },
-    { "name": "スパイダーマン", "category": "SP" },
-    { "name": "ヴェノム", "category": "SP" },
-    { "name": "ルーク・スカイウォーカー", "category": "SP" },
-    { "name": "ダース・ベイダー", "category": "SP" },
-    { "name": "マンダロリアン", "category": "SP" },
-    { "name": "モフ・ギデオン", "category": "SP" },
-    { "name": "オプティマスプライム", "category": "SP" },
-    { "name": "メガトロン", "category": "SP" },
-    { "name": "オプティマスプライマル", "category": "SP" },
-    { "name": "スタースクリーム", "category": "SP" }
+    {
+      "name": "ドランソード",
+      "category": "BX"
+    },
+    {
+      "name": "ヘルズサイズ",
+      "category": "BX"
+    },
+    {
+      "name": "ウィザードアロー",
+      "category": "BX"
+    },
+    {
+      "name": "ナイトシールド",
+      "category": "BX"
+    },
+    {
+      "name": "コバルトドレイク",
+      "category": "BX"
+    },
+    {
+      "name": "ナイトランス",
+      "category": "BX"
+    },
+    {
+      "name": "シャークエッジ",
+      "category": "BX"
+    },
+    {
+      "name": "レオンクロー",
+      "category": "BX"
+    },
+    {
+      "name": "ヴァイパーテイル",
+      "category": "BX"
+    },
+    {
+      "name": "ライノホーン",
+      "category": "BX"
+    },
+    {
+      "name": "ドランダガー",
+      "category": "BX"
+    },
+    {
+      "name": "ヘルズチェイン",
+      "category": "BX"
+    },
+    {
+      "name": "フェニックスフェザー",
+      "category": "BX"
+    },
+    {
+      "name": "フェニックスウイング",
+      "category": "BX"
+    },
+    {
+      "name": "ワイバーンゲイル",
+      "category": "BX"
+    },
+    {
+      "name": "ユニコーンスティング",
+      "category": "BX"
+    },
+    {
+      "name": "スフィンクスカウル",
+      "category": "BX"
+    },
+    {
+      "name": "ティラノビート",
+      "category": "BX"
+    },
+    {
+      "name": "ヴァイスタイガー",
+      "category": "BX"
+    },
+    {
+      "name": "コバルトドラグーン",
+      "category": "BX"
+    },
+    {
+      "name": "ブラックシェル",
+      "category": "BX"
+    },
+    {
+      "name": "ホエールウェーブ",
+      "category": "BX"
+    },
+    {
+      "name": "ベアスクラッチ",
+      "category": "BX"
+    },
+    {
+      "name": "クリムゾンガルーダ",
+      "category": "BX"
+    },
+    {
+      "name": "プテラスイング",
+      "category": "BX"
+    },
+    {
+      "name": "シノビナイフ",
+      "category": "BX"
+    },
+    {
+      "name": "マンモスタスク",
+      "category": "BX"
+    },
+    {
+      "name": "クロコクランチ",
+      "category": "BX"
+    },
+    {
+      "name": "シェルタードレイク",
+      "category": "BX"
+    },
+    {
+      "name": "トリケラプレス",
+      "category": "BX"
+    },
+    {
+      "name": "サムライスチール",
+      "category": "BX"
+    },
+    {
+      "name": "トリケラスパイキー",
+      "category": "BX"
+    },
+    {
+      "name": "ティラノロア",
+      "category": "BX"
+    },
+    {
+      "name": "ドランバスター",
+      "category": "UX"
+    },
+    {
+      "name": "ヘルズハンマー",
+      "category": "UX"
+    },
+    {
+      "name": "ウィザードロッド",
+      "category": "UX"
+    },
+    {
+      "name": "シノビシャドウ",
+      "category": "UX"
+    },
+    {
+      "name": "エアロペガサス",
+      "category": "UX"
+    },
+    {
+      "name": "レオンクレスト",
+      "category": "UX"
+    },
+    {
+      "name": "フェニックスラダー",
+      "category": "UX"
+    },
+    {
+      "name": "シルバーウルフ",
+      "category": "UX"
+    },
+    {
+      "name": "サムライセイバー",
+      "category": "UX"
+    },
+    {
+      "name": "ナイトメイル",
+      "category": "UX"
+    },
+    {
+      "name": "インパクトドレイク",
+      "category": "UX"
+    },
+    {
+      "name": "ゴーストサークル",
+      "category": "UX"
+    },
+    {
+      "name": "ゴーレムロック",
+      "category": "UX"
+    },
+    {
+      "name": "スコーピオスピア",
+      "category": "UX"
+    },
+    {
+      "name": "ドランザースパイラル",
+      "category": "SP"
+    },
+    {
+      "name": "ドライガースラッシュ",
+      "category": "SP"
+    },
+    {
+      "name": "ドラシエルシールド",
+      "category": "SP"
+    },
+    {
+      "name": "ドラグーンストーム",
+      "category": "SP"
+    },
+    {
+      "name": "ライトニングエルドラゴ (アタック)",
+      "category": "SP"
+    },
+    {
+      "name": "ライトニングエルドラゴ (連打)",
+      "category": "SP"
+    },
+    {
+      "name": "ストームペガシス",
+      "category": "SP"
+    },
+    {
+      "name": "ロックレオーネ",
+      "category": "SP"
+    },
+    {
+      "name": "ビクトリーヴァルキリー",
+      "category": "SP"
+    },
+    {
+      "name": "ゼノエクスカリバー",
+      "category": "SP"
+    },
+    {
+      "name": "アイアンマン",
+      "category": "SP"
+    },
+    {
+      "name": "サノス",
+      "category": "SP"
+    },
+    {
+      "name": "スパイダーマン",
+      "category": "SP"
+    },
+    {
+      "name": "ヴェノム",
+      "category": "SP"
+    },
+    {
+      "name": "ルーク・スカイウォーカー",
+      "category": "SP"
+    },
+    {
+      "name": "ダース・ベイダー",
+      "category": "SP"
+    },
+    {
+      "name": "マンダロリアン",
+      "category": "SP"
+    },
+    {
+      "name": "モフ・ギデオン",
+      "category": "SP"
+    },
+    {
+      "name": "オプティマスプライム",
+      "category": "SP"
+    },
+    {
+      "name": "メガトロン",
+      "category": "SP"
+    },
+    {
+      "name": "オプティマスプライマル",
+      "category": "SP"
+    },
+    {
+      "name": "スタースクリーム",
+      "category": "SP"
+    },
+    {
+      "name": "シャークスケイル",
+      "category": "UX"
+    }
   ],
   "ratchets": [
-    { "name": "0-70", "teeth": 0, "height": 70 },
-    { "name": "0-80", "teeth": 0, "height": 80 },
-    { "name": "1-60", "teeth": 1, "height": 60 },
-    { "name": "1-80", "teeth": 1, "height": 80 },
-    { "name": "2-60", "teeth": 2, "height": 60 },
-    { "name": "2-70", "teeth": 2, "height": 70 },
-    { "name": "2-80", "teeth": 2, "height": 80 },
-    { "name": "3-60", "teeth": 3, "height": 60 },
-    { "name": "3-70", "teeth": 3, "height": 70 },
-    { "name": "3-80", "teeth": 3, "height": 80 },
-    { "name": "3-85", "teeth": 3, "height": 85 },
-    { "name": "4-55", "teeth": 4, "height": 55 },
-    { "name": "4-60", "teeth": 4, "height": 60 },
-    { "name": "4-70", "teeth": 4, "height": 70 },
-    { "name": "4-80", "teeth": 4, "height": 80 },
-    { "name": "5-60", "teeth": 5, "height": 60 },
-    { "name": "5-70", "teeth": 5, "height": 70 },
-    { "name": "5-80", "teeth": 5, "height": 80 },
-    { "name": "6-60", "teeth": 6, "height": 60 },
-    { "name": "6-80", "teeth": 6, "height": 80 },
-    { "name": "7-60", "teeth": 7, "height": 60 },
-    { "name": "7-70", "teeth": 7, "height": 70 },
-    { "name": "7-80", "teeth": 7, "height": 80 },
-    { "name": "9-60", "teeth": 9, "height": 60 },
-    { "name": "9-70", "teeth": 9, "height": 70 },
-    { "name": "9-80", "teeth": 9, "height": 80 },
-    { "name": "M-85", "teeth": "M", "height": 85 },
-    { "name": "Tr (ターボ)", "teeth": null, "height": null, "is_integrated": true }
+    {
+      "name": "0-70",
+      "teeth": 0,
+      "height": 70
+    },
+    {
+      "name": "0-80",
+      "teeth": 0,
+      "height": 80
+    },
+    {
+      "name": "1-60",
+      "teeth": 1,
+      "height": 60
+    },
+    {
+      "name": "1-80",
+      "teeth": 1,
+      "height": 80
+    },
+    {
+      "name": "2-60",
+      "teeth": 2,
+      "height": 60
+    },
+    {
+      "name": "2-70",
+      "teeth": 2,
+      "height": 70
+    },
+    {
+      "name": "2-80",
+      "teeth": 2,
+      "height": 80
+    },
+    {
+      "name": "3-60",
+      "teeth": 3,
+      "height": 60
+    },
+    {
+      "name": "3-70",
+      "teeth": 3,
+      "height": 70
+    },
+    {
+      "name": "3-80",
+      "teeth": 3,
+      "height": 80
+    },
+    {
+      "name": "3-85",
+      "teeth": 3,
+      "height": 85
+    },
+    {
+      "name": "4-55",
+      "teeth": 4,
+      "height": 55
+    },
+    {
+      "name": "4-60",
+      "teeth": 4,
+      "height": 60
+    },
+    {
+      "name": "4-70",
+      "teeth": 4,
+      "height": 70
+    },
+    {
+      "name": "4-80",
+      "teeth": 4,
+      "height": 80
+    },
+    {
+      "name": "5-60",
+      "teeth": 5,
+      "height": 60
+    },
+    {
+      "name": "5-70",
+      "teeth": 5,
+      "height": 70
+    },
+    {
+      "name": "5-80",
+      "teeth": 5,
+      "height": 80
+    },
+    {
+      "name": "6-60",
+      "teeth": 6,
+      "height": 60
+    },
+    {
+      "name": "6-80",
+      "teeth": 6,
+      "height": 80
+    },
+    {
+      "name": "7-60",
+      "teeth": 7,
+      "height": 60
+    },
+    {
+      "name": "7-70",
+      "teeth": 7,
+      "height": 70
+    },
+    {
+      "name": "7-80",
+      "teeth": 7,
+      "height": 80
+    },
+    {
+      "name": "9-60",
+      "teeth": 9,
+      "height": 60
+    },
+    {
+      "name": "9-70",
+      "teeth": 9,
+      "height": 70
+    },
+    {
+      "name": "9-80",
+      "teeth": 9,
+      "height": 80
+    },
+    {
+      "name": "M-85",
+      "teeth": "M",
+      "height": 85
+    },
+    {
+      "name": "Tr (ターボ)",
+      "teeth": null,
+      "height": null,
+      "is_integrated": true
+    },
+    {
+      "name": "4-50",
+      "teeth": 4,
+      "height": 50
+    }
   ],
   "bits": [
-    { "name": "F (フラット)", "type": "アタック" },
-    { "name": "LF (ローフラット)", "type": "アタック" },
-    { "name": "R (ラッシュ)", "type": "アタック" },
-    { "name": "GF (ギヤフラット)", "type": "アタック" },
-    { "name": "A (アクセル)", "type": "アタック" },
-    { "name": "Q (クエイク)", "type": "アタック" },
-    { "name": "C (サイクロン)", "type": "アタック" },
-    { "name": "L (レベル)", "type": "アタック" },
-    { "name": "RA (ラバーアクセル)", "type": "アタック" },
-    { "name": "LR (ローラッシュ)", "type": "アタック" },
-    { "name": "V (ボルテックス)", "type": "アタック" },
-    { "name": "GR (ギアラッシュ)", "type": "アタック" },
-    { "name": "Tr (ターボ)", "type": "アタック", "is_integrated": true },
-    { "name": "T (テーパー)", "type": "バランス" },
-    { "name": "P (ポイント)", "type": "バランス" },
-    { "name": "HT (ハイテーパー)", "type": "バランス" },
-    { "name": "GP (ギヤポイント)", "type": "バランス" },
-    { "name": "H (ヘキサ)", "type": "バランス" },
-    { "name": "U (ユナイト)", "type": "バランス" },
-    { "name": "E (エレベート)", "type": "バランス" },
-    { "name": "TP (トランスポイント)", "type": "バランス" },
-    { "name": "K (キック)", "type": "バランス" },
-    { "name": "Z (ザップ)", "type": "バランス" },
-    { "name": "B (ボール)", "type": "スタミナ" },
-    { "name": "O (オーブ)", "type": "スタミナ" },
-    { "name": "GB (ギヤボール)", "type": "スタミナ" },
-    { "name": "DB (ディスクボール)", "type": "スタミナ" },
-    { "name": "G (グライド)", "type": "スタミナ" },
-    { "name": "FB (フリーボール)", "type": "スタミナ" },
-    { "name": "LO (ローオーブ)", "type": "スタミナ" },
-    { "name": "WB (ウォールボール)", "type": "スタミナ" },
-    { "name": "N (ニードル)", "type": "ディフェンス" },
-    { "name": "HN (ハイニードル)", "type": "ディフェンス" },
-    { "name": "S (スパイク)", "type": "ディフェンス" },
-    { "name": "GN (ギヤニードル)", "type": "ディフェンス" },
-    { "name": "MN (メタルニードル)", "type": "ディフェンス" },
-    { "name": "D (ドット)", "type": "ディフェンス" },
-    { "name": "BS (バウンドスパイク)", "type": "ディフェンス" },
-    { "name": "UN (アンダーニードル)", "type": "ディフェンス" },
-    { "name": "W (ウェッジ)", "type": "ディフェンス" }
+    {
+      "name": "F (フラット)",
+      "type": "アタック"
+    },
+    {
+      "name": "LF (ローフラット)",
+      "type": "アタック"
+    },
+    {
+      "name": "R (ラッシュ)",
+      "type": "アタック"
+    },
+    {
+      "name": "GF (ギヤフラット)",
+      "type": "アタック"
+    },
+    {
+      "name": "A (アクセル)",
+      "type": "アタック"
+    },
+    {
+      "name": "Q (クエイク)",
+      "type": "アタック"
+    },
+    {
+      "name": "C (サイクロン)",
+      "type": "アタック"
+    },
+    {
+      "name": "L (レベル)",
+      "type": "アタック"
+    },
+    {
+      "name": "RA (ラバーアクセル)",
+      "type": "アタック"
+    },
+    {
+      "name": "LR (ローラッシュ)",
+      "type": "アタック"
+    },
+    {
+      "name": "V (ボルテックス)",
+      "type": "アタック"
+    },
+    {
+      "name": "GR (ギアラッシュ)",
+      "type": "アタック"
+    },
+    {
+      "name": "Tr (ターボ)",
+      "type": "アタック",
+      "is_integrated": true
+    },
+    {
+      "name": "T (テーパー)",
+      "type": "バランス"
+    },
+    {
+      "name": "P (ポイント)",
+      "type": "バランス"
+    },
+    {
+      "name": "HT (ハイテーパー)",
+      "type": "バランス"
+    },
+    {
+      "name": "GP (ギヤポイント)",
+      "type": "バランス"
+    },
+    {
+      "name": "H (ヘキサ)",
+      "type": "バランス"
+    },
+    {
+      "name": "U (ユナイト)",
+      "type": "バランス"
+    },
+    {
+      "name": "E (エレベート)",
+      "type": "バランス"
+    },
+    {
+      "name": "TP (トランスポイント)",
+      "type": "バランス"
+    },
+    {
+      "name": "K (キック)",
+      "type": "バランス"
+    },
+    {
+      "name": "Z (ザップ)",
+      "type": "バランス"
+    },
+    {
+      "name": "B (ボール)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "O (オーブ)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "GB (ギヤボール)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "DB (ディスクボール)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "G (グライド)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "FB (フリーボール)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "LO (ローオーブ)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "WB (ウォールボール)",
+      "type": "スタミナ"
+    },
+    {
+      "name": "N (ニードル)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "HN (ハイニードル)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "S (スパイク)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "GN (ギヤニードル)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "MN (メタルニードル)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "D (ドット)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "BS (バウンドスパイク)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "UN (アンダーニードル)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "W (ウェッジ)",
+      "type": "ディフェンス"
+    },
+    {
+      "name": "UF",
+      "type": "アタック"
+    }
   ],
   "cx_parts": {
     "lock_chips": [
-      { "name": "ドラン" },
-      { "name": "ウィザード" },
-      { "name": "ペルセウス" },
-      { "name": "ヘルズ" },
-      { "name": "ライノ" },
-      { "name": "フォックス" },
-      { "name": "ペガサス" },
-      { "name": "ケルベロス" },
-      { "name": "ホエール" },
-      { "name": "ワルキューレ", "is_metal": true }
+      {
+        "name": "ドラン"
+      },
+      {
+        "name": "ウィザード"
+      },
+      {
+        "name": "ペルセウス"
+      },
+      {
+        "name": "ヘルズ"
+      },
+      {
+        "name": "ライノ"
+      },
+      {
+        "name": "フォックス"
+      },
+      {
+        "name": "ペガサス"
+      },
+      {
+        "name": "ケルベロス"
+      },
+      {
+        "name": "ホエール"
+      },
+      {
+        "name": "ワルキューレ",
+        "is_metal": true
+      }
     ],
     "main_blades": [
-      { "name": "ブレイブ" },
-      { "name": "アーク" },
-      { "name": "ダーク" },
-      { "name": "リーパー" },
-      { "name": "ブラッシュ" },
-      { "name": "ブラスト" },
-      { "name": "フレイム" },
-      { "name": "ボルト" }
+      {
+        "name": "ブレイブ"
+      },
+      {
+        "name": "アーク"
+      },
+      {
+        "name": "ダーク"
+      },
+      {
+        "name": "リーパー"
+      },
+      {
+        "name": "ブラッシュ"
+      },
+      {
+        "name": "ブラスト"
+      },
+      {
+        "name": "フレイム"
+      },
+      {
+        "name": "ボルト"
+      }
     ],
     "assist_blades": [
-      { "name": "S (スラッシュ)" },
-      { "name": "R (ラウンド)" },
-      { "name": "B (バンパー)" },
-      { "name": "T (ターン)" },
-      { "name": "C (チャージ)" },
-      { "name": "J (ジャギー)" },
-      { "name": "A (アサルト)" },
-      { "name": "W (ウィール)" },
-      { "name": "M (マッシブ)" }
-    ]}
+      {
+        "name": "S (スラッシュ)"
+      },
+      {
+        "name": "R (ラウンド)"
+      },
+      {
+        "name": "B (バンパー)"
+      },
+      {
+        "name": "T (ターン)"
+      },
+      {
+        "name": "C (チャージ)"
+      },
+      {
+        "name": "J (ジャギー)"
+      },
+      {
+        "name": "A (アサルト)"
+      },
+      {
+        "name": "W (ウィール)"
+      },
+      {
+        "name": "M (マッシブ)"
+      }
+    ]
+  }
 }
