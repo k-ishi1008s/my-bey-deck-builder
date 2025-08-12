@@ -246,8 +246,10 @@ function saveDeck() {
 }
 
 function renderSavedDecks() {
-    deckListArea.innerHTML = '';
+    const container = document.getElementById('saved-decks-container'); // ★ここを変更
+    container.innerHTML = ''; // 表示をリセット
     const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
+
     savedDecks.forEach((deck, index) => {
         const deckEl = document.createElement('div');
         deckEl.classList.add('saved-deck');
@@ -260,7 +262,7 @@ function renderSavedDecks() {
         deleteButton.addEventListener('click', () => deleteDeck(index));
         deckEl.innerHTML = deckHTML;
         deckEl.appendChild(deleteButton);
-        deckListArea.appendChild(deckEl);
+        container.appendChild(deckEl);
     });
 }
 
@@ -269,4 +271,68 @@ function deleteDeck(deckIndex) {
     savedDecks.splice(deckIndex, 1);
     localStorage.setItem('beyDecks', JSON.stringify(savedDecks));
     renderSavedDecks();
+}
+
+// TXT形式で書き出すボタンの処理
+document.getElementById('export-txt-button').addEventListener('click', () => {
+    const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
+    if (savedDecks.length === 0) {
+        alert('書き出すデッキがありません。');
+        return;
+    }
+
+    let textContent = "ベイブレードX デッキレシピ一覧\n\n";
+
+    savedDecks.forEach(deck => {
+        textContent += `■ デッキ名: ${deck.name}\n`;
+        deck.bays.forEach((bey, index) => {
+            textContent += `  ベイ${index + 1}: ${bey.blade} / ${bey.ratchet} / ${bey.bit}\n`;
+        });
+        textContent += "\n"; // デッキごとに改行
+    });
+
+    downloadFile(textContent, 'bey-decks.txt', 'text/plain');
+});
+
+// CSV形式で書き出すボタンの処理
+document.getElementById('export-csv-button').addEventListener('click', () => {
+    const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
+    if (savedDecks.length === 0) {
+        alert('書き出すデッキがありません。');
+        return;
+    }
+
+    let csvContent = "デッキ名,ベイ1 ブレード,ベイ1 ラチェット,ベイ1 ビット,ベイ2 ブレード,ベイ2 ラチェット,ベイ2 ビット,ベイ3 ブレード,ベイ3 ラチェット,ベイ3 ビット\n";
+
+    savedDecks.forEach(deck => {
+        let row = [deck.name];
+        for (let i = 0; i < 3; i++) {
+            if (deck.bays[i]) {
+                row.push(deck.bays[i].blade);
+                row.push(deck.bays[i].ratchet);
+                row.push(deck.bays[i].bit);
+            } else {
+                row.push('', '', ''); // ベイが存在しない場合は空欄
+            }
+        }
+        csvContent += row.join(',') + "\n";
+    });
+
+    // Excelで文字化けしないようにBOMを追加
+    const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    const blob = new Blob([bom, csvContent], { type: 'text/csv;charset=utf-8;' });
+    downloadFile(blob, 'bey-decks.csv');
+});
+
+
+// ファイルをダウンロードさせるための補助関数
+function downloadFile(content, fileName, contentType) {
+    const a = document.createElement("a");
+    const isBlob = content instanceof Blob;
+    const file = isBlob ? content : new Blob([content], { type: contentType });
+
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(a.href);
 }
