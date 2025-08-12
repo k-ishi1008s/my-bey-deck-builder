@@ -28,19 +28,54 @@ async function loadPartsData() {
 }
 
 // デッキカスタマイズエリアの表示を作る関数
-function renderDeckBuilder() {
+function renderDeckBuilder(folderToSelectId = null) {
     const deckNameInput = document.getElementById('deck-name');
-    const currentDeckName = deckNameInput ? deckNameInput.value : ''; // ★改善点: 現在のデッキ名を取得
+    const currentDeckName = deckNameInput ? deckNameInput.value : '';
+
+    // どのフォルダを選択すべきか決定するロジック
+    let currentFolderId;
+    if (folderToSelectId) {
+        // 引数でIDが指定されていれば、それを優先する
+        currentFolderId = folderToSelectId;
+    } else {
+        // 指定がなければ、現在の選択状態を維持する
+        const folderSelect = document.getElementById('folder-context-select');
+        currentFolderId = folderSelect ? folderSelect.value : 'uncategorized';
+    }
 
     deckBuilderArea.innerHTML = '';
 
-    const deckNameContainer = document.createElement('div');
-    deckNameContainer.innerHTML = `
-        <label for="deck-name">デッキ名: </label>
-        <input type="text" id="deck-name" placeholder="2025年夏大会用デッキ" value="${currentDeckName}">
-    `; // ★改善点: valueに現在のデッキ名を設定
-    deckBuilderArea.appendChild(deckNameContainer);
+    // フォルダ作成、フォルダ選択、デッキ名を一つのコンテナにまとめる
+    const topControlsContainer = document.createElement('div');
+    topControlsContainer.id = 'top-controls-container';
+    deckBuilderArea.appendChild(topControlsContainer);
 
+    // 要素を生成する順番を変更
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+    
+    let optionsHTML = `<option value="uncategorized">未分類</option>`;
+    savedData.folders.forEach(folder => {
+        optionsHTML += `<option value="${folder.id}">${folder.name}</option>`;
+    });
+
+    topControlsContainer.innerHTML = `
+        <button id="context-create-folder-button">＋ 新しいフォルダを作成</button>
+        <select id="folder-context-select">${optionsHTML}</select>
+        <input type="text" id="deck-name" placeholder="デッキ名を入力" value="${currentDeckName}">
+    `;
+    
+    // イベントリスナーをここで設定
+    topControlsContainer.querySelector('#context-create-folder-button').addEventListener('click', () => {
+        const folderName = prompt('新しいフォルダ名を入力してください:');
+        if (folderName) {
+            createNewFolder(folderName);
+        }
+    });
+
+    // 決定したIDで選択状態を復元
+    topControlsContainer.querySelector('#folder-context-select').value = currentFolderId;
+
+    // ベイブレード3機分のスロットを生成
     for (let i = 0; i < 3; i++) {
         const beybladeSlot = document.createElement('div');
         beybladeSlot.classList.add('beyblade-slot');
@@ -224,6 +259,9 @@ function selectPart(part, partType) {
 // 保存ロジックは前回要望の「1つでも保存できる」形を維持
 // saveDeck関数
 function saveDeck() {
+    // ★追加：どのフォルダが選択されているかを取得
+    const selectedFolderId = document.getElementById('folder-context-select').value;
+
     const deckName = document.getElementById('deck-name').value;
     if (!deckName) {
         alert('デッキ名を入力してください。');
@@ -235,16 +273,24 @@ function saveDeck() {
         return;
     }
 
-    // 新しいデータ構造に合わせて保存
     const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
     const newDeck = { name: deckName, bays: completedBays };
-    
-    // 今は「未分類」にのみ追加
-    savedData.uncategorized.push(newDeck);
+
+    // ★変更：選択されたフォルダに直接保存するロジック
+    if (selectedFolderId === 'uncategorized') {
+        savedData.uncategorized.push(newDeck);
+    } else {
+        const folder = savedData.folders.find(f => f.id === parseInt(selectedFolderId));
+        if (folder) {
+            folder.decks.push(newDeck);
+        } else {
+            alert('エラー: 保存先のフォルダが見つかりません。');
+            return;
+        }
+    }
     
     localStorage.setItem('beyDecks', JSON.stringify(savedData));
-
-    alert('デッキを「未分類」に保存しました！');
+    alert('デッキを保存しました！');
     
     currentDeck = [ { blade: null, ratchet: null, bit: null }, { blade: null, ratchet: null, bit: null }, { blade: null, ratchet: null, bit: null } ];
     document.getElementById('deck-name').value = ''; 
@@ -460,16 +506,20 @@ function createNewFolder(name) {
     const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
     
     const newFolder = {
-        id: Date.now(), // ユニークなIDとして現在時刻のタイムスタンプを使用
+        id: Date.now(),
         name: name,
         decks: []
     };
 
     savedData.folders.push(newFolder);
     localStorage.setItem('beyDecks', JSON.stringify(savedData));
-    renderSavedDecks();
+    
+    // ★新しく作ったフォルダのIDを引数として渡す
+    renderDeckBuilder(newFolder.id);
+    
     alert(`フォルダ「${name}」を作成しました。`);
 }
+
 
 // デッキの移動先フォルダを選択するUIを表示する関数
 function showMoveOptions(deck, fromIndex, fromFolderKey, fromFolderId) {
@@ -540,4 +590,30 @@ function moveDeck(deckToMove, fromIndex, fromFolderKey, fromFolderId, toFolderId
     localStorage.setItem('beyDecks', JSON.stringify(savedData));
     renderSavedDecks();
     alert('デッキを移動しました。');
+}
+
+// フォルダ選択UIを描画する関数
+function renderFolderContext() {
+    const container = document.getElementById('context-container');
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+    
+    let optionsHTML = `<option value="uncategorized">未分類</option>`;
+    savedData.folders.forEach(folder => {
+        optionsHTML += `<option value="${folder.id}">${folder.name}</option>`;
+    });
+
+    container.innerHTML = `
+        <label for="folder-context-select">現在の作業フォルダ:</label>
+        <select id="folder-context-select">${optionsHTML}</select>
+        <button id="context-create-folder-button">＋</button>
+    `;
+
+    document.getElementById('context-create-folder-button').addEventListener('click', () => {
+        const folderName = prompt('新しいフォルダ名を入力してください:');
+        if (folderName) {
+            createNewFolder(folderName);
+            // 作成後、すぐにフォルダ選択UIも更新
+            renderFolderContext(); 
+        }
+    });
 }
