@@ -133,15 +133,29 @@ section {
     margin: 5px 0;
     color: #555;
 }
-.saved-deck button {
+
+/* 削除ボタンのスタイル */
+.delete-button {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 10px; /* 右端に配置 */
     background-color: #dc3545;
     color: white;
 }
-.saved-deck button:hover {
+.delete-button:hover {
     background-color: #c82333;
+}
+
+/* コピーボタンのスタイル */
+.copy-button {
+    position: absolute;
+    top: 10px;
+    right: 85px; /* 削除ボタンの左隣に配置 */
+    background-color: #28a745;
+    color: white;
+}
+.copy-button:hover {
+    background-color: #218838;
 }
 
 /* デッキビルダーのコンテナをフレックスボックスにする */

@@ -206,7 +206,6 @@ function createSelect(parts) {
     return select;
 }
 
-// ★改善点：元のシンプルな形に戻した
 function selectPart(part, partType) {
     const { beyIndex } = activeSelection;
     let displayName = part.name;
@@ -245,6 +244,7 @@ function saveDeck() {
     renderSavedDecks();
 }
 
+//デッキ保存
 function renderSavedDecks() {
     const container = document.getElementById('saved-decks-container'); // ★ここを変更
     container.innerHTML = ''; // 表示をリセット
@@ -259,13 +259,22 @@ function renderSavedDecks() {
         });
         const deleteButton = document.createElement('button');
         deleteButton.textContent = '削除';
+        deleteButton.classList.add('delete-button');
         deleteButton.addEventListener('click', () => deleteDeck(index));
+
+        const copyButton = document.createElement('button');
+        copyButton.textContent = 'コピー';
+        copyButton.classList.add('copy-button'); // CSSでデザインするための目印
+        copyButton.addEventListener('click', () => copyDeck(deck));
+
         deckEl.innerHTML = deckHTML;
         deckEl.appendChild(deleteButton);
+        deckEl.appendChild(copyButton);
         container.appendChild(deckEl);
     });
 }
 
+//デッキ削除
 function deleteDeck(deckIndex) {
     const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
     savedDecks.splice(deckIndex, 1);
@@ -273,7 +282,31 @@ function deleteDeck(deckIndex) {
     renderSavedDecks();
 }
 
-// TXT形式で書き出すボタンの処理
+//デッキコピー
+function copyDeck(deck) {
+    // デッキ名をコピー元が分かるように変更
+    document.getElementById('deck-name').value = `${deck.name} のコピー`;
+    // currentDeckを一旦リセット
+    currentDeck = [
+        { blade: null, ratchet: null, bit: null },
+        { blade: null, ratchet: null, bit: null },
+        { blade: null, ratchet: null, bit: null },
+    ];
+    // コピー元のデッキ情報をcurrentDeckに反映
+    deck.bays.forEach((bey, index) => {
+        if (index < 3) { // 3機まで
+            currentDeck[index] = { ...bey };
+        }
+    });
+    // デッキビルダーを再描画して画面に反映
+    renderDeckBuilder();
+    // ページ上部にスクロールして、編集しやすくする
+    window.scrollTo(0, 0);
+    alert('デッキをカスタマイズエリアにコピーしました。');
+}
+
+
+// TXT形式で書き出す
 document.getElementById('export-txt-button').addEventListener('click', () => {
     const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
     if (savedDecks.length === 0) {
@@ -294,7 +327,7 @@ document.getElementById('export-txt-button').addEventListener('click', () => {
     downloadFile(textContent, 'bey-decks.txt', 'text/plain');
 });
 
-// CSV形式で書き出すボタンの処理
+// CSV形式で書き出す
 document.getElementById('export-csv-button').addEventListener('click', () => {
     const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
     if (savedDecks.length === 0) {
