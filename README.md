@@ -2,6 +2,8 @@
 
 SNSで見かけたカスタマイズを記録しておくために作成したwebアプリです
 
+URL：https://k-ishi1008s.github.io/my-bey-deck-builder/index.html
+
 ---
 ## 概要
 
@@ -15,36 +17,15 @@ SNSで見かけたカスタマイズを記録しておくために作成したwe
     * パーツはカテゴリ、タイプ、性能などで絞り込み検索が可能です。
 
 * **デッキの保存と管理**:
-    * 構築したデッキに名前をつけて、ブラウザの`localStorage`に保存できます。
+    * 構築したデッキに名前をつけて、ブラウザの`localStorage`へ保存できます。
     * 保存したデッキはいつでも一覧でき、不要になったら削除も可能です。
 
 * **データのエクスポート**:
     * 保存した全デッキのレシピを、TXT形式またはCSV形式（Excelで閲覧可能）で書き出してバックアップできます。
 
 * **パーツデータベース管理機能**:
-    * `admin.html`を通じて、新しいパーツをデータベースに追加するためのJSONデータを簡単に生成できます。
+    * 新しいパーツをデータベースに追加するためのJSONデータを生成できます。
 
 ---
-## セットアップと使い方
 
-このプロジェクトをローカル環境で動かすには、以下の手順に従ってください。
-
-1.  **リポジトリのクローン**
-    ```bash
-    git clone [https://github.com/あなたのユーザー名/リポジトリ名.git](https://github.com/あなたのユーザー名/リポジトリ名.git)
-    ```
-2.  **フォルダを開く**
-    ```bash
-    cd my-bey-deck-builder
-    ```
-3.  **Live Serverで起動**
-    * VS Codeに[Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)拡張機能をインストールします。
-    * `index.html`ファイルを開き、VS Codeの右下にある「Go Live」ボタンをクリックします。
-
----
-## 作者
-
-* **[あなたの名前]**
-
-ご意見やご感想があれば、お気軽にどうぞ。
 URL：https://k-ishi1008s.github.io/my-bey-deck-builder/index.html
