@@ -30,7 +30,7 @@ URL：https://k-ishi1008s.github.io/my-bey-deck-builder/index.html
 ---
 ## 使い方
 
-1.  https://k-ishi1008s.github.io/my-bey-deck-builder/index.htmlにアクセスします。
+1.  (https://k-ishi1008s.github.io/my-bey-deck-builder/index.html)　へアクセスする
 2.  **フォルダを作成**: 「＋ 新しいフォルダを作成」ボタンで、デッキを保存するためのフォルダを作ります。
 3.  **デッキを構築**: 作業フォルダを選択し、3機分のベイのパーツをそれぞれ選んでいきます。
 4.  **デッキを保存**: デッキ名を入力し、「このデッキを記録する」ボタンを押すと、選択中のフォルダにデッキが保存されます。
