@@ -29,14 +29,17 @@ async function loadPartsData() {
 
 // デッキカスタマイズエリアの表示を作る関数
 function renderDeckBuilder() {
+    const deckNameInput = document.getElementById('deck-name');
+    const currentDeckName = deckNameInput ? deckNameInput.value : ''; // ★改善点: 現在のデッキ名を取得
+
     deckBuilderArea.innerHTML = '';
 
-    const deckNameInput = document.createElement('div');
-    deckNameInput.innerHTML = `
+    const deckNameContainer = document.createElement('div');
+    deckNameContainer.innerHTML = `
         <label for="deck-name">デッキ名: </label>
-        <input type="text" id="deck-name" placeholder="2025年夏大会用デッキ">
-    `;
-    deckBuilderArea.appendChild(deckNameInput);
+        <input type="text" id="deck-name" placeholder="2025年夏大会用デッキ" value="${currentDeckName}">
+    `; // ★改善点: valueに現在のデッキ名を設定
+    deckBuilderArea.appendChild(deckNameContainer);
 
     for (let i = 0; i < 3; i++) {
         const beybladeSlot = document.createElement('div');
@@ -85,7 +88,6 @@ function showPartsSelector() {
             renderPartButtons(partsData.blades, resultsContainer, 'blade');
             break;
         case 'ratchet':
-            // ★追加：ラチェットフィルターの呼び出し
             renderRatchetFilters(filterContainer, resultsContainer);
             renderPartButtons(partsData.ratchets, resultsContainer, 'ratchet');
             break;
@@ -96,15 +98,10 @@ function showPartsSelector() {
     }
 }
 
-// ★追加：ラチェット用のフィルターUIを作る
 function renderRatchetFilters(filterContainer, resultsContainer) {
     filterContainer.innerHTML = '<h4>ラチェットで絞り込み</h4>';
-
-    // 歯の数と高さのユニークな値を取得してソート
     const teeth = [...new Set(partsData.ratchets.map(r => r.teeth).filter(t => t !== null && t !== 'M'))].sort((a, b) => a - b);
     const heights = [...new Set(partsData.ratchets.map(r => r.height).filter(h => h !== null))].sort((a, b) => a - b);
-
-    // 歯の数フィルター
     const teethDiv = document.createElement('div');
     teethDiv.innerHTML = '<strong>歯の数:</strong> ';
     teeth.forEach(t => {
@@ -113,8 +110,6 @@ function renderRatchetFilters(filterContainer, resultsContainer) {
         teethDiv.appendChild(label);
     });
     filterContainer.appendChild(teethDiv);
-
-    // 高さフィルター
     const heightDiv = document.createElement('div');
     heightDiv.innerHTML = '<strong>高さ:</strong> ';
     heights.forEach(h => {
@@ -123,36 +118,28 @@ function renderRatchetFilters(filterContainer, resultsContainer) {
         heightDiv.appendChild(label);
     });
     filterContainer.appendChild(heightDiv);
-
-    // フィルターイベント
     filterContainer.addEventListener('change', () => {
         const checkedTeeth = Array.from(filterContainer.querySelectorAll('input[name="teeth"]:checked')).map(cb => parseInt(cb.value));
         const checkedHeights = Array.from(filterContainer.querySelectorAll('input[name="height"]:checked')).map(cb => parseInt(cb.value));
-        
         let filteredRatchets = partsData.ratchets;
-
         if (checkedTeeth.length > 0) {
             filteredRatchets = filteredRatchets.filter(r => checkedTeeth.includes(r.teeth));
         }
         if (checkedHeights.length > 0) {
             filteredRatchets = filteredRatchets.filter(r => checkedHeights.includes(r.height));
         }
-
         renderPartButtons(filteredRatchets, resultsContainer, 'ratchet');
     });
 }
 
-// ビット用のフィルターUI（チェックボックス）を作る
 function renderBitFilters(filterContainer, resultsContainer) {
     filterContainer.innerHTML = '<h4>タイプで絞り込み</h4>';
     const types = ['アタック', 'ディフェンス', 'スタミナ', 'バランス'];
-    
     types.forEach(type => {
         const label = document.createElement('label');
         label.innerHTML = `<input type="checkbox" value="${type}"> ${type}`;
         filterContainer.appendChild(label);
     });
-
     filterContainer.addEventListener('change', () => {
         const checkedTypes = Array.from(filterContainer.querySelectorAll('input:checked')).map(cb => cb.value);
         const filteredBits = (checkedTypes.length > 0)
@@ -162,22 +149,18 @@ function renderBitFilters(filterContainer, resultsContainer) {
     });
 }
 
-// ブレード用のフィルターUIを作る
 function renderBladeFilters(filterContainer, resultsContainer) {
     filterContainer.innerHTML = '<h4>カテゴリで絞り込み</h4>';
     const categories = ['BX', 'UX', 'SP'];
-    
     categories.forEach(cat => {
         const label = document.createElement('label');
         label.innerHTML = `<input type="checkbox" value="${cat}"> ${cat}`;
         filterContainer.appendChild(label);
     });
-
     const cxButton = document.createElement('button');
     cxButton.textContent = 'CX';
     cxButton.addEventListener('click', () => renderCXSelector(resultsContainer));
     filterContainer.appendChild(cxButton);
-
     filterContainer.addEventListener('change', () => {
         const checkedCats = Array.from(filterContainer.querySelectorAll('input:checked')).map(cb => cb.value);
         const filteredBlades = (checkedCats.length > 0)
@@ -187,8 +170,6 @@ function renderBladeFilters(filterContainer, resultsContainer) {
     });
 }
 
-
-// パーツのボタンリストを作る
 function renderPartButtons(parts, container, partType) {
     container.innerHTML = '';
     parts.forEach(part => {
@@ -199,14 +180,12 @@ function renderPartButtons(parts, container, partType) {
     });
 }
 
-// CXパーツの選択UIを作る
 function renderCXSelector(container) {
     container.innerHTML = '<h4>CXパーツ選択</h4>';
     const { lock_chips, main_blades, assist_blades } = partsData.cx_parts;
     const lockChipSelect = createSelect(lock_chips);
     const mainBladeSelect = createSelect(main_blades);
     const assistBladeSelect = createSelect(assist_blades);
-
     const confirmButton = document.createElement('button');
     confirmButton.textContent = 'この組み合わせで決定';
     confirmButton.addEventListener('click', () => {
@@ -216,7 +195,6 @@ function renderCXSelector(container) {
     container.append(lockChipSelect, mainBladeSelect, assistBladeSelect, confirmButton);
 }
 
-// select要素とoption要素を作る補助関数
 function createSelect(parts) {
     const select = document.createElement('select');
     parts.forEach(part => {
@@ -228,7 +206,7 @@ function createSelect(parts) {
     return select;
 }
 
-// パーツ選択時の処理
+// ★改善点：元のシンプルな形に戻した
 function selectPart(part, partType) {
     const { beyIndex } = activeSelection;
     let displayName = part.name;
@@ -241,30 +219,32 @@ function selectPart(part, partType) {
     
     currentDeck[beyIndex][partType] = displayName;
     partsSelectorArea.innerHTML = '';
-    renderDeckBuilder();
+    renderDeckBuilder(); // 画面を再描画
 }
 
-
-// --- 保存・読み込み・削除の機能（変更なし） ---
+// 保存ロジックは前回要望の「1つでも保存できる」形を維持
 function saveDeck() {
     const deckName = document.getElementById('deck-name').value;
     if (!deckName) {
         alert('デッキ名を入力してください。');
         return;
     }
-    const isComplete = currentDeck.every(bey => bey.blade && bey.ratchet && bey.bit);
-    if (!isComplete) {
-        alert('すべてのパーツを選択してください。');
+    const completedBays = currentDeck.filter(bey => bey.blade && bey.ratchet && bey.bit);
+    if (completedBays.length === 0) {
+        alert('パーツがすべて揃っているベイが1つもありません。');
         return;
     }
     const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
-    savedDecks.push({ name: deckName, bays: currentDeck });
+    savedDecks.push({ name: deckName, bays: completedBays });
     localStorage.setItem('beyDecks', JSON.stringify(savedDecks));
     alert('デッキを保存しました！');
     currentDeck = [ { blade: null, ratchet: null, bit: null }, { blade: null, ratchet: null, bit: null }, { blade: null, ratchet: null, bit: null } ];
+    // デッキ名入力欄は空にする
+    document.getElementById('deck-name').value = ''; 
     renderDeckBuilder();
     renderSavedDecks();
 }
+
 function renderSavedDecks() {
     deckListArea.innerHTML = '';
     const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
@@ -283,6 +263,7 @@ function renderSavedDecks() {
         deckListArea.appendChild(deckEl);
     });
 }
+
 function deleteDeck(deckIndex) {
     const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
     savedDecks.splice(deckIndex, 1);
