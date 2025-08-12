@@ -222,6 +222,7 @@ function selectPart(part, partType) {
 }
 
 // 保存ロジックは前回要望の「1つでも保存できる」形を維持
+// saveDeck関数
 function saveDeck() {
     const deckName = document.getElementById('deck-name').value;
     if (!deckName) {
@@ -233,53 +234,109 @@ function saveDeck() {
         alert('パーツがすべて揃っているベイが1つもありません。');
         return;
     }
-    const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
-    savedDecks.push({ name: deckName, bays: completedBays });
-    localStorage.setItem('beyDecks', JSON.stringify(savedDecks));
-    alert('デッキを保存しました！');
+
+    // 新しいデータ構造に合わせて保存
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+    const newDeck = { name: deckName, bays: completedBays };
+    
+    // 今は「未分類」にのみ追加
+    savedData.uncategorized.push(newDeck);
+    
+    localStorage.setItem('beyDecks', JSON.stringify(savedData));
+
+    alert('デッキを「未分類」に保存しました！');
+    
     currentDeck = [ { blade: null, ratchet: null, bit: null }, { blade: null, ratchet: null, bit: null }, { blade: null, ratchet: null, bit: null } ];
-    // デッキ名入力欄は空にする
     document.getElementById('deck-name').value = ''; 
     renderDeckBuilder();
     renderSavedDecks();
 }
 
 //デッキ保存
+// renderSavedDecks関数
 function renderSavedDecks() {
-    const container = document.getElementById('saved-decks-container'); // ★ここを変更
-    container.innerHTML = ''; // 表示をリセット
-    const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
+    const foldersContainer = document.getElementById('folders-container');
+    const uncategorizedContainer = document.getElementById('uncategorized-container');
+    
+    foldersContainer.innerHTML = '';
+    uncategorizedContainer.innerHTML = '';
 
-    savedDecks.forEach((deck, index) => {
-        const deckEl = document.createElement('div');
-        deckEl.classList.add('saved-deck');
-        let deckHTML = `<h3>${deck.name}</h3>`;
-        deck.bays.forEach((bey, beyIndex) => {
-            deckHTML += `<p>ベイ${beyIndex + 1}: ${bey.blade} / ${bey.ratchet} / ${bey.bit}</p>`;
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+
+    // フォルダの表示
+    if (savedData.folders && savedData.folders.length > 0) {
+        savedData.folders.forEach(folder => {
+            const folderEl = document.createElement('details'); // アコーディオン形式にする
+            folderEl.classList.add('folder');
+            folderEl.innerHTML = `<summary>${folder.name}</summary>`;
+            
+            folder.decks.forEach((deck, index) => {
+                const deckEl = createDeckElement(deck, index, 'folder', folder.id);
+                folderEl.appendChild(deckEl);
+            });
+            foldersContainer.appendChild(folderEl);
         });
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '削除';
-        deleteButton.classList.add('delete-button');
-        deleteButton.addEventListener('click', () => deleteDeck(index));
+    }
 
-        const copyButton = document.createElement('button');
-        copyButton.textContent = 'コピー';
-        copyButton.classList.add('copy-button'); // CSSでデザインするための目印
-        copyButton.addEventListener('click', () => copyDeck(deck));
+    // 未分類のデッキを表示
+    if (savedData.uncategorized && savedData.uncategorized.length > 0) {
+        const uncategorizedHeader = document.createElement('h3');
+        uncategorizedHeader.textContent = '未分類のデッキ';
+        uncategorizedContainer.appendChild(uncategorizedHeader);
 
-        deckEl.innerHTML = deckHTML;
-        deckEl.appendChild(deleteButton);
-        deckEl.appendChild(copyButton);
-        container.appendChild(deckEl);
+        savedData.uncategorized.forEach((deck, index) => {
+            const deckEl = createDeckElement(deck, index, 'uncategorized');
+            uncategorizedContainer.appendChild(deckEl);
+        });
+    }
+}
+
+// デッキのHTML要素を生成する補助関数（新設）
+function createDeckElement(deck, index, folderKey, folderId = null) {
+    const deckEl = document.createElement('div');
+    deckEl.classList.add('saved-deck');
+    let deckHTML = `<h3>${deck.name}</h3>`;
+    deck.bays.forEach((bey, beyIndex) => {
+        deckHTML += `<p>ベイ${beyIndex + 1}: ${bey.blade} / ${bey.ratchet} / ${bey.bit}</p>`;
     });
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '削除';
+    deleteButton.classList.add('delete-button');
+    deleteButton.addEventListener('click', () => deleteDeck(index, folderKey, folderId));
+    
+    const copyButton = document.createElement('button');
+    copyButton.textContent = 'コピー';
+    copyButton.classList.add('copy-button');
+    copyButton.addEventListener('click', () => copyDeck(deck));
+
+    // ★ここから追記
+    const moveButton = document.createElement('button');
+    moveButton.textContent = '移動';
+    moveButton.classList.add('move-button');
+    moveButton.addEventListener('click', () => showMoveOptions(deck, index, folderKey, folderId));
+    // ★ここまで追記
+
+    deckEl.innerHTML = deckHTML;
+    deckEl.appendChild(deleteButton);
+    deckEl.appendChild(copyButton);
+    deckEl.appendChild(moveButton); // ★追記：移動ボタンを要素に追加
+    return deckEl;
 }
 
 //デッキ削除
-function deleteDeck(deckIndex) {
-    const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
-    savedDecks.splice(deckIndex, 1);
-    localStorage.setItem('beyDecks', JSON.stringify(savedDecks));
-    renderSavedDecks();
+function deleteDeck(deckIndex, folderKey, folderId) {
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] }
+    if (folderKey === 'uncategorized') {
+        savedData.uncategorized.splice(deckIndex, 1);
+    } else if (folderKey === 'folder') {
+        const folder = savedData.folders.find(f => f.id === folderId);
+        if (folder) {
+            folder.decks.splice(deckIndex, 1);
+        }
+    }
+    localStorage.setItem('beyDecks', JSON.stringify(savedData));
+    renderSavedDecks(); // リストを再描画
 }
 
 //デッキコピー
@@ -368,4 +425,119 @@ function downloadFile(content, fileName, contentType) {
     a.download = fileName;
     a.click();
     URL.revokeObjectURL(a.href);
+}
+
+// 古いデータ形式から新しいフォルダ形式へ移行するための関数
+function migrateData() {
+    const oldData = localStorage.getItem('beyDecks');
+    
+    // 古いデータが存在し、かつ、それが配列（フォルダ形式ではない）の場合
+    if (oldData && Array.isArray(JSON.parse(oldData))) {
+        console.log('古いデータ形式を検出しました。新しい形式に移行します。');
+        const decks = JSON.parse(oldData);
+        const newData = {
+            folders: [],
+            uncategorized: decks
+        };
+        localStorage.setItem('beyDecks', JSON.stringify(newData));
+        alert('データ構造を新しいフォルダ形式に更新しました。');
+    }
+}
+
+// ページ読み込み時にデータ移行処理を実行
+migrateData();
+
+// 「新しいフォルダを作成」ボタンの処理
+document.getElementById('create-folder-button').addEventListener('click', () => {
+    const folderName = prompt('新しいフォルダ名を入力してください:');
+    if (folderName) {
+        createNewFolder(folderName);
+    }
+});
+
+// 新しいフォルダを作る関数
+function createNewFolder(name) {
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+    
+    const newFolder = {
+        id: Date.now(), // ユニークなIDとして現在時刻のタイムスタンプを使用
+        name: name,
+        decks: []
+    };
+
+    savedData.folders.push(newFolder);
+    localStorage.setItem('beyDecks', JSON.stringify(savedData));
+    renderSavedDecks();
+    alert(`フォルダ「${name}」を作成しました。`);
+}
+
+// デッキの移動先フォルダを選択するUIを表示する関数
+function showMoveOptions(deck, fromIndex, fromFolderKey, fromFolderId) {
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+    
+    // 移動先の選択肢を生成
+    let optionsHTML = `<option value="uncategorized">未分類</option>`;
+    savedData.folders.forEach(folder => {
+        optionsHTML += `<option value="${folder.id}">${folder.name}</option>`;
+    });
+
+    const modalHTML = `
+        <div id="move-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h4>「${deck.name}」の移動先を選択</h4>
+                <select id="folder-select">${optionsHTML}</select>
+                <button id="confirm-move">ここに移動</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const modal = document.getElementById('move-modal');
+    modal.style.display = 'block';
+
+    // モーダルを閉じる処理
+    modal.querySelector('.close-button').onclick = () => modal.remove();
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.remove();
+        }
+    };
+
+    // 「ここに移動」ボタンの処理
+    document.getElementById('confirm-move').addEventListener('click', () => {
+        const select = document.getElementById('folder-select');
+        const toFolderId = select.value;
+        moveDeck(deck, fromIndex, fromFolderKey, fromFolderId, toFolderId);
+        modal.remove();
+    });
+}
+
+// デッキを実際に移動させる関数
+function moveDeck(deckToMove, fromIndex, fromFolderKey, fromFolderId, toFolderId) {
+    const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+
+    // 1. 元の場所からデッキを削除
+    if (fromFolderKey === 'uncategorized') {
+        savedData.uncategorized.splice(fromIndex, 1);
+    } else {
+        const folder = savedData.folders.find(f => f.id === fromFolderId);
+        if (folder) {
+            folder.decks.splice(fromIndex, 1);
+        }
+    }
+
+    // 2. 新しい場所にデッキを追加
+    if (toFolderId === 'uncategorized') {
+        savedData.uncategorized.push(deckToMove);
+    } else {
+        const folder = savedData.folders.find(f => f.id === parseInt(toFolderId));
+        if (folder) {
+            folder.decks.push(deckToMove);
+        }
+    }
+
+    localStorage.setItem('beyDecks', JSON.stringify(savedData));
+    renderSavedDecks();
+    alert('デッキを移動しました。');
 }
