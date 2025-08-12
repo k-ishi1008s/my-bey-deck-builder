@@ -297,3 +297,29 @@ section {
     border: 1px solid #ced4da;
     font-size: 16px;
 }
+
+/* フォルダ名の右側にボタンを配置するための設定 */
+.folder summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.folder-buttons button {
+    font-size: 20px;
+    padding: 3px 6px;
+    margin-left: 5px;
+    visibility: hidden; /* 通常は非表示 */
+    background-color: #ffffff; /* ★色を統一 */
+    color: #050505; /* ★色を統一 */
+    border: none;
+    line-height: 1.5; /* アイコンの縦位置を中央に */
+}
+
+.folder summary:hover .folder-buttons button {
+    visibility: visible; /* マウスを乗せた時だけ表示 */
+}
+
+.folder-buttons button:hover {
+    background-color: #a7c9f5; /* 青みがかった色 */
+}

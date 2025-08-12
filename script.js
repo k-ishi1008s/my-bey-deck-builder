@@ -301,6 +301,17 @@ function saveDeck() {
 //デッキ保存
 // renderSavedDecks関数
 function renderSavedDecks() {
+    const buttonContainer = document.getElementById('create-folder-button').parentElement;
+    // 既に追加されていないかチェック
+    if (!document.getElementById('export-txt-button')) {
+        buttonContainer.insertAdjacentHTML('beforeend', `
+            <button id="export-txt-button">TXT形式で書き出す</button>
+            <button id="export-csv-button">CSV形式で書き出す (Excel用)</button>
+        `);
+        // ボタンにイベントリスナーを再設定
+        setupExportListeners();
+    }
+
     const foldersContainer = document.getElementById('folders-container');
     const uncategorizedContainer = document.getElementById('uncategorized-container');
     
@@ -312,19 +323,40 @@ function renderSavedDecks() {
     // フォルダの表示
     if (savedData.folders && savedData.folders.length > 0) {
         savedData.folders.forEach(folder => {
-            const folderEl = document.createElement('details'); // アコーディオン形式にする
+            const folderEl = document.createElement('details');
             folderEl.classList.add('folder');
-            folderEl.innerHTML = `<summary>${folder.name}</summary>`;
+            
+            // ★変更：フォルダ名の部分にボタンを追加
+            folderEl.innerHTML = `
+                <summary>
+                    <span>${folder.name}</span>
+                    <div class="folder-buttons">
+                        <button class="rename-folder-button">✏️</button>
+                        <button class="delete-folder-button">🗑️</button>
+                    </div>
+                </summary>
+            `;
             
             folder.decks.forEach((deck, index) => {
                 const deckEl = createDeckElement(deck, index, 'folder', folder.id);
                 folderEl.appendChild(deckEl);
             });
+
+            // ★追加：ボタンにイベントリスナーを設定
+            folderEl.querySelector('.rename-folder-button').addEventListener('click', (e) => {
+                e.preventDefault(); // detailsの開閉をキャンセル
+                renameFolder(folder.id, folder.name);
+            });
+            folderEl.querySelector('.delete-folder-button').addEventListener('click', (e) => {
+                e.preventDefault(); // detailsの開閉をキャンセル
+                deleteFolder(folder.id, folder.name);
+            });
+
             foldersContainer.appendChild(folderEl);
         });
     }
 
-    // 未分類のデッキを表示
+    // 未分類のデッキを表示 (この部分は変更なし)
     if (savedData.uncategorized && savedData.uncategorized.length > 0) {
         const uncategorizedHeader = document.createElement('h3');
         uncategorizedHeader.textContent = '未分類のデッキ';
@@ -408,58 +440,92 @@ function copyDeck(deck) {
     alert('デッキをカスタマイズエリアにコピーしました。');
 }
 
-
-// TXT形式で書き出す
-document.getElementById('export-txt-button').addEventListener('click', () => {
-    const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
-    if (savedDecks.length === 0) {
-        alert('書き出すデッキがありません。');
-        return;
-    }
-
-    let textContent = "ベイブレードX デッキレシピ一覧\n\n";
-
-    savedDecks.forEach(deck => {
-        textContent += `■ デッキ名: ${deck.name}\n`;
-        deck.bays.forEach((bey, index) => {
-            textContent += `  ベイ${index + 1}: ${bey.blade} / ${bey.ratchet} / ${bey.bit}\n`;
-        });
-        textContent += "\n"; // デッキごとに改行
-    });
-
-    downloadFile(textContent, 'bey-decks.txt', 'text/plain');
-});
-
-// CSV形式で書き出す
-document.getElementById('export-csv-button').addEventListener('click', () => {
-    const savedDecks = JSON.parse(localStorage.getItem('beyDecks')) || [];
-    if (savedDecks.length === 0) {
-        alert('書き出すデッキがありません。');
-        return;
-    }
-
-    let csvContent = "デッキ名,ベイ1 ブレード,ベイ1 ラチェット,ベイ1 ビット,ベイ2 ブレード,ベイ2 ラチェット,ベイ2 ビット,ベイ3 ブレード,ベイ3 ラチェット,ベイ3 ビット\n";
-
-    savedDecks.forEach(deck => {
-        let row = [deck.name];
-        for (let i = 0; i < 3; i++) {
-            if (deck.bays[i]) {
-                row.push(deck.bays[i].blade);
-                row.push(deck.bays[i].ratchet);
-                row.push(deck.bays[i].bit);
-            } else {
-                row.push('', '', ''); // ベイが存在しない場合は空欄
-            }
+function setupExportListeners() {
+    // TXT形式で書き出すボタンの処理
+    document.getElementById('export-txt-button').addEventListener('click', () => {
+        // ★修正点：ここでデータを再取得する
+        const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
+        
+        if (savedData.folders.length === 0 && savedData.uncategorized.length === 0) {
+            alert('書き出すデッキがありません。');
+            return;
         }
-        csvContent += row.join(',') + "\n";
+
+        let textContent = "ベイブレードX デッキレシピ一覧\n\n";
+
+        // フォルダ内のデッキ
+        savedData.folders.forEach(folder => {
+            textContent += `【${folder.name}】\n`;
+            folder.decks.forEach(deck => {
+                textContent += `■ デッキ名: ${deck.name}\n`;
+                deck.bays.forEach((bey, index) => {
+                    textContent += `  ベイ${index + 1}: ${bey.blade} / ${bey.ratchet} / ${bey.bit}\n`;
+                });
+                textContent += "\n";
+            });
+        });
+
+        // 未分類のデッキ
+        if (savedData.uncategorized.length > 0) {
+            textContent += `【未分類のデッキ】\n`;
+            savedData.uncategorized.forEach(deck => {
+                textContent += `■ デッキ名: ${deck.name}\n`;
+                deck.bays.forEach((bey, index) => {
+                    textContent += `  ベイ${index + 1}: ${bey.blade} / ${bey.ratchet} / ${bey.bit}\n`;
+                });
+                textContent += "\n";
+            });
+        }
+
+        downloadFile(textContent, 'bey-decks.txt', 'text/plain');
     });
 
-    // Excelで文字化けしないようにBOMを追加
-    const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
-    const blob = new Blob([bom, csvContent], { type: 'text/csv;charset=utf-8;' });
-    downloadFile(blob, 'bey-decks.csv');
-});
+    // CSV形式で書き出すボタンの処理
+    document.getElementById('export-csv-button').addEventListener('click', () => {
+        // ★修正点：ここでデータを再取得する
+        const savedData = JSON.parse(localStorage.getItem('beyDecks')) || { folders: [], uncategorized: [] };
 
+        if (savedData.folders.length === 0 && savedData.uncategorized.length === 0) {
+            alert('書き出すデッキがありません。');
+            return;
+        }
+
+        let csvContent = "フォルダ名,デッキ名,ベイ1 ブレード,ベイ1 ラチェット,ベイ1 ビット,ベイ2 ブレード,ベイ2 ラチェット,ベイ2 ビット,ベイ3 ブレード,ベイ3 ラチェット,ベイ3 ビット\n";
+
+        // フォルダ内のデッキ
+        savedData.folders.forEach(folder => {
+            folder.decks.forEach(deck => {
+                let row = [folder.name, deck.name];
+                for (let i = 0; i < 3; i++) {
+                    if (deck.bays[i]) {
+                        row.push(deck.bays[i].blade, deck.bays[i].ratchet, deck.bays[i].bit);
+                    } else {
+                        row.push('', '', '');
+                    }
+                }
+                // 各項目をダブルクォーテーションで囲む
+                csvContent += row.map(item => `"${(item || '').replace(/"/g, '""')}"`).join(',') + "\n";
+            });
+        });
+
+        // 未分類のデッキ
+        savedData.uncategorized.forEach(deck => {
+            let row = ["未分類", deck.name];
+            for (let i = 0; i < 3; i++) {
+                if (deck.bays[i]) {
+                    row.push(deck.bays[i].blade, deck.bays[i].ratchet, deck.bays[i].bit);
+                } else {
+                    row.push('', '', '');
+                }
+            }
+            csvContent += row.map(item => `"${(item || '').replace(/"/g, '""')}"`).join(',') + "\n";
+        });
+
+        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+        const blob = new Blob([bom, csvContent], { type: 'text/csv;charset=utf-8;' });
+        downloadFile(blob, 'bey-decks.csv');
+    });
+}
 
 // ファイルをダウンロードさせるための補助関数
 function downloadFile(content, fileName, contentType) {
@@ -616,4 +682,41 @@ function renderFolderContext() {
             renderFolderContext(); 
         }
     });
+}
+
+// フォルダ名を変更する関数
+function renameFolder(folderId, currentName) {
+    const newName = prompt('新しいフォルダ名を入力してください:', currentName);
+    if (newName && newName !== currentName) {
+        const savedData = JSON.parse(localStorage.getItem('beyDecks'));
+        const folder = savedData.folders.find(f => f.id === folderId);
+        if (folder) {
+            folder.name = newName;
+            localStorage.setItem('beyDecks', JSON.stringify(savedData));
+            renderSavedDecks();
+            renderDeckBuilder(); // 上の選択肢も更新
+        }
+    }
+}
+
+// フォルダを削除する関数
+function deleteFolder(folderId, folderName) {
+    const confirmation = confirm(`フォルダ「${folderName}」を削除しますか？\n（中のデッキは「未分類」に移動します）`);
+    if (confirmation) {
+        const savedData = JSON.parse(localStorage.getItem('beyDecks'));
+        const folderIndex = savedData.folders.findIndex(f => f.id === folderId);
+        
+        if (folderIndex > -1) {
+            // フォルダ内のデッキを「未分類」に移動
+            const decksToMove = savedData.folders[folderIndex].decks;
+            savedData.uncategorized.push(...decksToMove);
+
+            // フォルダを削除
+            savedData.folders.splice(folderIndex, 1);
+
+            localStorage.setItem('beyDecks', JSON.stringify(savedData));
+            renderSavedDecks();
+            renderDeckBuilder(); // 上の選択肢も更新
+        }
+    }
 }
